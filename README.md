@@ -14,18 +14,5 @@ A developer productivity tool that ingests OpenAPI 3.0 YAML/JSON specifications,
 2. UML Use-Case Diagram – includes actors, primary use cases, one `<<include>>` and one `<<extend>>` relationship.
 3. Use-Case Flow Specification – one core use case with Preconditions, Postconditions, Main Success Scenario, and one Alternate Flow.
 
-## Repository Structure
-
-```text
-LAB1_PES1UG24AM341/
-├── README.md
-├── Requirements/
-│   └── Requirements_Table.xlsx
-├── UML/
-│   └── Use_Case_Diagram.pdf
-└── Use-Case-Flow/
-    └── Use_Case_Flow.pdf
-```
-
 ## Note
 FR-001 and NFR-001 follow the assigned problem statement's supplied guidelines. The remaining requirements and the derived API Client actor are modeled from the stated system capabilities and the Lab 1 requirement that the UML model contain at least three actors.
