@@ -13,3 +13,6 @@ experiments and deliverables.
 
 ### SE Lab 2
 - Lab 2 Documentation
+
+### SE Lab 3
+- Lab 3 Documentation
