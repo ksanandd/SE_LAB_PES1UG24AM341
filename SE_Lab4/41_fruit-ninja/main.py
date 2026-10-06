@@ -58,7 +58,6 @@ def main():
 
         clock.tick(FPS)
 
-        # Exit selected from Game Over menu
         if engine.game_over_input_received:
 
             running = False
