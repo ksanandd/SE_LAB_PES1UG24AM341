@@ -306,7 +306,7 @@ The following video shows the original/starter version of the Fruit Ninja projec
 <br><br><br><br>
 
 **Before Video Link:**  
-`PASTE BEFORE VIDEO LINK HERE`
+[Watch Before Implementation Video](./Before_Modifying.mp4)
 
 ---
 
@@ -321,7 +321,7 @@ The following video shows the final Fruit Ninja project after completing all fou
 <br><br><br><br>
 
 **After Video Link:**  
-`PASTE AFTER VIDEO LINK HERE`
+[Watch After Implementation Video](./After_Modifying.mp4)
 
 ---
 
