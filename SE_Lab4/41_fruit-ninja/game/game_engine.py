@@ -35,7 +35,15 @@ class GameEngine:
         self.lives = 3
         self.score = 0
         self.font = pygame.font.SysFont("Arial", 28)
+
+        # Game state
         self.game_over = False
+        self.game_over_input_received = False
+
+        # Fonts used by the Game Over screen
+        self.game_over_font = pygame.font.SysFont("Arial", 64, bold=True)
+        self.final_score_font = pygame.font.SysFont("Arial", 36)
+        self.continue_font = pygame.font.SysFont("Arial", 24)
 
     def spawn_fruit(self):
         x = random.randint(60, self.width - 60)
@@ -62,6 +70,15 @@ class GameEngine:
         self.fruits.append(fruit)
 
     def handle_event(self, event):
+        # Once the game is over, stop normal gameplay input.
+        # Wait for a key press or mouse click before exiting.
+        if self.game_over:
+            if event.type == pygame.KEYDOWN:
+                self.game_over_input_received = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.game_over_input_received = True
+            return
+
         if event.type == pygame.MOUSEMOTION:
             self._handle_motion(event.pos)
 
@@ -102,6 +119,7 @@ class GameEngine:
         pass
 
     def update(self):
+        # Do not update gameplay after Game Over.
         if self.game_over:
             return
 
@@ -132,50 +150,88 @@ class GameEngine:
             self.game_over = True
 
     def render(self, screen):
-        for fruit in self.fruits:
-            color = getattr(fruit, "color", WHITE)
+        # Render normal gameplay while the game is active.
+        if not self.game_over:
+            for fruit in self.fruits:
+                color = getattr(fruit, "color", WHITE)
 
-            pygame.draw.circle(
-                screen,
-                color,
-                (int(fruit.x), int(fruit.y)),
-                fruit.radius
+                pygame.draw.circle(
+                    screen,
+                    color,
+                    (int(fruit.x), int(fruit.y)),
+                    fruit.radius
+                )
+
+            if len(self.trail) >= 2:
+                pygame.draw.lines(
+                    screen,
+                    WHITE,
+                    False,
+                    self.trail,
+                    3
+                )
+
+            score_text = self.font.render(
+                f"Score: {self.score}",
+                True,
+                WHITE
+            )
+            screen.blit(score_text, (10, 10))
+
+            lives_text = self.font.render(
+                f"Lives: {self.lives}",
+                True,
+                WHITE
+            )
+            screen.blit(
+                lives_text,
+                (self.width - 130, 10)
             )
 
-        if len(self.trail) >= 2:
-            pygame.draw.lines(
-                screen,
-                WHITE,
-                False,
-                self.trail,
-                3
-            )
+            return
 
-        score_text = self.font.render(
-            f"Score: {self.score}",
+        # -------------------------
+        # GAME OVER SCREEN
+        # -------------------------
+
+        # Dark overlay so the Game Over screen is visually distinct.
+        overlay = pygame.Surface(
+            (self.width, self.height),
+            pygame.SRCALPHA
+        )
+        overlay.fill((0, 0, 0, 180))
+        screen.blit(overlay, (0, 0))
+
+        game_over_text = self.game_over_font.render(
+            "GAME OVER",
             True,
             WHITE
         )
-        screen.blit(score_text, (10, 10))
 
-        lives_text = self.font.render(
-            f"Lives: {self.lives}",
+        final_score_text = self.final_score_font.render(
+            f"Final Score: {self.score}",
             True,
             WHITE
         )
-        screen.blit(
-            lives_text,
-            (self.width - 130, 10)
+
+        continue_text = self.continue_font.render(
+            "Press any key or click to exit",
+            True,
+            WHITE
         )
 
-        if self.game_over and not getattr(
-            self,
-            "_game_over_logged",
-            False
-        ):
-            # NOTE: Proper game-over screen is Task 2.
-            print(
-                "Game over! Final score:",
-                self.score
-            )
-            self._game_over_logged = True
+        game_over_rect = game_over_text.get_rect(
+            center=(self.width // 2, self.height // 2 - 80)
+        )
+
+        final_score_rect = final_score_text.get_rect(
+            center=(self.width // 2, self.height // 2)
+        )
+
+        continue_rect = continue_text.get_rect(
+            center=(self.width // 2, self.height // 2 + 70)
+        )
+
+        screen.blit(game_over_text, game_over_rect)
+        screen.blit(final_score_text, final_score_rect)
+        screen.blit(continue_text, continue_rect)

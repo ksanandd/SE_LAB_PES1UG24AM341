@@ -1,11 +1,13 @@
 import pygame
 from game.game_engine import GameEngine
 
-# Initialize pygame/Start application
+
+# Initialize pygame / Start application
 pygame.init()
 
 # Screen dimensions
 WIDTH, HEIGHT = 700, 600
+
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Fruit Slice - Pygame Version")
 
@@ -16,17 +18,28 @@ DARK_BLUE = (20, 25, 45)
 clock = pygame.time.Clock()
 FPS = 60
 
-# Game loop
+# Game engine
 engine = GameEngine(WIDTH, HEIGHT)
+
 
 def main():
     running = True
+
     while running:
         SCREEN.fill(DARK_BLUE)
+
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 running = False
+                continue
+
             engine.handle_event(event)
+
+            # During Task 2, the Game Over screen waits for
+            # keyboard or mouse input before closing.
+            if engine.game_over_input_received:
+                running = False
 
         engine.handle_input()
         engine.update()
@@ -36,6 +49,7 @@ def main():
         clock.tick(FPS)
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
