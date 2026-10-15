@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+venv/
+.venv/
+smart_home_original.py
+home_state.json
+__pycache__/
+*.pyc
