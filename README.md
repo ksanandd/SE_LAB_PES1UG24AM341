@@ -25,3 +25,6 @@ experiments and deliverables.
 
 ### SE Lab 6
 - Lab 6 Documentation
+
+### SE Lab 7
+- Lab 7 Documentation 
